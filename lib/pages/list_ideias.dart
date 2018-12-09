@@ -22,8 +22,8 @@ class IdeiaListPageState extends State<IdeiaListPage> {
   void initState() {
     super.initState();
 
-    var db = MyDatabase();
-    Future<List<Map>> myIdeasFuture = db.getMyIdeas();
+    widget.db = MyDatabase();
+    Future<List<Map>> myIdeasFuture = widget.db.getMyIdeas();
     myIdeasFuture.then((List<Map> myIdeas) {
       widget.myIdeasList = myIdeas;
     });
@@ -71,6 +71,15 @@ class IdeiaListPageState extends State<IdeiaListPage> {
     return false;
   }
 
+  void deleteIdea(String key) {
+    widget.db.deleteIdea(key);
+
+    httpRequests.deleteIdea(key);
+
+    Scaffold.of(context)
+        .showSnackBar(SnackBar(content: Text("Ideia removida com sucesso!")));
+  }
+
   @override
   Widget build(BuildContext context) {
     // return localIdeiasMap.keys.length == 0 ? Text("Nada") : Text(id);
@@ -106,12 +115,14 @@ class IdeiaListPageState extends State<IdeiaListPage> {
                         onPressed: checkIdea(widget.ideiasKeys[index])
                             ? () {
                                 print("deleting");
+                                deleteIdea(widget.ideiasKeys[index]);
                                 setState(() {
                                   widget.ideiasMap.remove(widget.ideiasKeys[
                                       index]); //= Map.from(newIdeiasMap);
                                   widget.ideiasKeys.remove(widget.ideiasKeys[
                                       index]); //= List.from(newIdeiasMap.keys);
                                 });
+
                                 // makeWish(widget.ideiasKeys[index]);
                               }
                             : null)

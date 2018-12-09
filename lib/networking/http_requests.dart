@@ -45,4 +45,13 @@ class MyHTTPRequests {
     else
       return false;
   }
+
+  void deleteIdea(String key) {
+    print("Deleting from Firebase idea: " + key);
+    http
+        .delete("https://aracomppitch.firebaseio.com/ideia/${key}.json")
+        .then((http.Response response) {
+      print(response.statusCode);
+    });
+  }
 }

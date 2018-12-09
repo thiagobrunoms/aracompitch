@@ -48,4 +48,14 @@ class MyDatabase {
 
     return list;
   }
+
+  void deleteIdea(String ideaId) async {
+    print("Deleting idea: " + ideaId);
+    var dbTransaction = await db;
+    await dbTransaction.transaction((txn) async {
+      return await txn.rawInsert(
+          'DELETE FROM MyWishes WHERE ideaId=' + '\'' + ideaId + '\'');
+      // DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+    });
+  }
 }
