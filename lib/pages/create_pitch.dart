@@ -4,7 +4,6 @@ import "../networking/http_requests.dart";
 class CreatePitchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return CreatePitchPageState();
   }
 }

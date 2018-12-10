@@ -36,20 +36,30 @@ class MyHTTPRequests {
     return ideiasMap;
   }
 
-  Future<bool> makeAWish(String key) async {
+  Future<Map<String, dynamic>> makeAWish(String key) async {
     Map<String, String> aWish = {"idea": key};
     var response = await http.post(url_make_wish, body: json.encode(aWish));
 
-    if (response.statusCode == 200)
-      return true;
-    else
-      return false;
+    Map<String, dynamic> aWishResponse = json.decode(response.body);
+
+    return aWishResponse;
   }
 
   void deleteIdea(String key) {
+    //TODO Deletar as wishes atribuídas
     print("Deleting from Firebase idea: " + key);
     http
         .delete("https://aracomppitch.firebaseio.com/ideia/${key}.json")
+        .then((http.Response response) {
+      print(response.statusCode);
+    });
+  }
+
+  void deleteWish(String key) {
+    //TODO Deletar as wishes atribuídas
+    print("Deleting from Firebase Wish: " + key);
+    http
+        .delete("https://aracomppitch.firebaseio.com/wish/${key}.json")
         .then((http.Response response) {
       print(response.statusCode);
     });
